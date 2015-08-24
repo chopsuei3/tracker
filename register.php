@@ -1,7 +1,16 @@
 <?php
 include ("dbconfig.php");
 
-if ( $_GET["op"] == "register" )
+function test_input($data) {
+$data = trim($data);
+$data = stripslashes($data);
+$data = htmlspecialchars($data);
+return $data;
+}
+
+if ( $_GET["op"] != NULL)
+{
+  if ( $_GET["op"] == "register" )
 {
 
 if (empty($_POST["username"]))
@@ -26,10 +35,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 die( "Invalid email format");
 }
 
-$q = "INSERT INTO `dbusers` (`username`,`password`,`email`) "
-."VALUES ('" . mysql_real_escape_string($username) . "', "
-."md5('" . mysql_real_escape_string($password) . "'), "
-."'" . mysql_real_escape_string($email) . "')";
+$q = "INSERT INTO `dbusers` (`username`,`password`,`email`) "."VALUES ('" . mysql_real_escape_string($username) . "', "."md5('" . mysql_real_escape_string($password) . "'), "."'" . mysql_real_escape_string($email) . "')";
 
 $r = mysql_query($q);
 
@@ -46,7 +52,7 @@ elseif ( $_GET["op"] == "thanks" )
 {
 echo "<h2>thanks for registering!</h2>";
 }
-
+}
 
 ?>
 

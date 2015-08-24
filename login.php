@@ -11,11 +11,7 @@ die("you need to provide a username and password");
 }
   
 // Create query
- $q = "SELECT * FROM `dbusers` "
-."WHERE `username`='".$_POST["username"]."' "
-."AND `password`=md5('".$_POST["password"]."')
-"
-."LIMIT 1";
+ $q = "SELECT * FROM `dbusers` "."WHERE `username`='".$_POST["username"]."' "."AND `password`=md5('".$_POST["password"]."')"."LIMIT 1";
 
 // Run query
 $r = mysql_query($q);

@@ -1,4 +1,4 @@
 ###
-## .gitignore file for wt
+## .gitignore file
 
-dbConfig.php
+dbconfig.php

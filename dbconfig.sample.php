@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Replace the variable values below
 // with your specific database information.

@@ -8,9 +8,7 @@ $data = htmlspecialchars($data);
 return $data;
 }
 
-if ( $_GET["op"] != NULL)
-{
-  if ( $_GET["op"] == "register" )
+if ( $_POST["op"] == "register" )
 {
 
 if (empty($_POST["username"]))
@@ -45,13 +43,8 @@ die("Error: User not added to database.");
   }
 else
   {
-Header("Location: register.php?op=thanks");
+Header("Location: login.php?op=thanks");
   }
-}
-elseif ( $_GET["op"] == "thanks" )
-{
-echo "<h2>thanks for registering!</h2>";
-}
 }
 
 ?>

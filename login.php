@@ -3,7 +3,15 @@ session_start();
 
 // dBase file
 include "dbconfig.php";
-if ($_GET["op"] == "login")
+if ($_GET["op"] == "thanks")
+{
+echo "<h3>Thanks for registering! Please log in below</h3>";
+}
+elseif ($_GET["op"] == "incorrect")
+{
+echo "<h3>Sorry, wrong login credentials. Please try again below</h3>";
+}
+elseif ($_POST["op"] == "login")
 {
 if (empty($_POST["username"]) || empty($_POST["password"]) )
 {
@@ -28,7 +36,6 @@ Header("Location: profile.php");
 }
 else
 {
-
 // Login not successful
 die("sorry, could not log you in. wrong login information.");
 Header("Location: login.php");
@@ -79,7 +86,7 @@ Header("Location: login.php");
     <div class="container-fluid">
 <div class="row-fluid">
 <div class="span4 offset4">
-<form class="form-signin" action=?op=login method="POST">        
+<form class="form-signin" action=login.php method="POST">        
 <h2 class="form-signin-heading">please sign in</h2>
 <input type="text" class="input-block-level" placeholder="Username" name="username" size="15" align="center" >
 <input type="password" class="input-block-level" placeholder="Password" name="password" size="8" align="center" >

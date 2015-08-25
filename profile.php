@@ -59,10 +59,10 @@ $transaction_amount=mysql_result($result,$i,"transaction_amount");
 ?>
 
 <tr>
-<td><? echo $transaction_date; ?></td>
-<td><? echo $strain_name; ?></td>
-<td><? echo $transaction_weight; ?></td>
-<td><? echo $transaction_amount; ?></td>
+<td><?php echo $transaction_date; ?></td>
+<td><?php echo $strain_name; ?></td>
+<td><?php echo $transaction_weight; ?></td>
+<td><?php echo $transaction_amount; ?></td>
 </tr>
 
 <?php

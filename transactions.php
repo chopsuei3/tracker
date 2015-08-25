@@ -104,11 +104,11 @@ $transaction_amount=mysql_result($result,$i,"transaction_amount");
 ?>
 
 <tr>
-<td><? echo $transaction_id; ?></td>
-<td><? echo $transaction_date; ?></td>
-<td><? echo $strain_name; ?></td>
-<td><? echo $transaction_weight; ?></td>
-<td><? echo $transaction_amount; ?></td>
+<td><?php echo $transaction_id; ?></td>
+<td><?php echo $transaction_date; ?></td>
+<td><?php echo $strain_name; ?></td>
+<td><?php echo $transaction_weight; ?></td>
+<td><?php echo $transaction_amount; ?></td>
 </tr>
 
 <?php
@@ -124,12 +124,12 @@ echo "</table><br />";
     <input class="input-small" type="date" placeholder="select date" name="transdate">
     <a href="#" onClick="cal.select(document.forms['addtrans'].transdate,'anchor1','yyyy/MM/dd'); return false;" name="anchor1" id="anchor1">select</a>
     <div class="input-append">
-    <input class="input-small" type="date" placeholder="weight (g)" name="transweight">
+    <input class="input-small" type="number" placeholder="weight (g)" name="transweight">
     <span class="add-on">g</span>
     </div>
     <div class="input-prepend">
     <span class="add-on">$</span>
-    <input class="input-small" type="date" placeholder="price" name="transprice">
+    <input class="input-small" type="number" placeholder="price" name="transprice">
     </div>
     <button class="btn btn-small btn-primary" type="submit" name="op" value="add">add transaction</button>
 </form>

@@ -11,13 +11,13 @@ require_once("dropdown.php");
 include ("dbconfig.php");
 
 // Set up database connection
-$con = mysql_connect($host,$user,$pass);
-@mysql_select_db($db) or die( "unable to select database");
+//$con = mysql_connect($host,$user,$pass);
+//@mysql_select_db($db) or die( "unable to select database");
 
 if ($_POST["op"] == "edit")
 {
 $updstrainsql="UPDATE strains SET strain_name = '" . mysql_real_escape_string($_POST[upd_strain_name]) . "' WHERE strain_id = '" . mysql_real_escape_string($_POST[updstrain]) . "'";
-    if (!mysql_query($updstrainsql,$con))
+    if (!mysql_query($updstrainsql))
     {
     die('Error: ' . mysql_error());
     }
@@ -28,11 +28,11 @@ if ($_POST["op"] == "delete")
 {
 $delstrainsql="DELETE FROM strains WHERE strain_id = '" . mysql_real_escape_string($_POST[delstrain]) . "'";
 $delstrtransql="DELETE FROM transactions where strain_id = '" . mysql_real_escape_string($_POST[delstrain]) . "'";
-    if (!mysql_query($delstrainsql,$con))
+    if (!mysql_query($delstrainsql))
     {
     die('Error: ' . mysql_error());
     }
-    if (!mysql_query($delstrtransql,$con))
+    if (!mysql_query($delstrtransql))
     {
     die('error: ' . mysql_error());
     }
@@ -42,7 +42,7 @@ echo "1 strain removed";
 if ( $_POST["op"] == "add" )
 {
 $addStrain = "INSERT INTO strains (strain_name) VALUES ('" . mysql_real_escape_string($_POST[strain_name]) . "')";
-    if (!mysql_query($addStrain,$con))
+    if (!mysql_query($addStrain))
       {
             if (mysql_errno() == 1062)
             {
@@ -57,7 +57,7 @@ echo "1 strain added";
 }
 
 $strainlist = "SELECT strain_name from strains";
-$result = mysql_query($strainlist,$con);
+$result = mysql_query($strainlist);
     if (!$result) 
     {
         echo "could not successfully run query ($strainlist) from database: " . mysql_error();
@@ -93,10 +93,10 @@ $result = mysql_query($strainlist,$con);
 $i=0;
 while ($i < mysql_num_rows($result)) {
 
-$strain_name=mysql_result($result,$i,"strain_name");
+$strain_name=mysql_result($result,$i,'strain_name');
 ?>
 <tr>
-<td><? echo $strain_name; ?></td>
+<td><?php echo $strain_name; ?></td>
 </tr>
 <?php
 $i++;

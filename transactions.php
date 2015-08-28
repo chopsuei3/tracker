@@ -105,7 +105,7 @@ echo "</table><br />";
 }
 else
 {
-echo "<h3>There are no strains added yet</h3>";
+echo "<h3>There are no transactions added yet</h3>";
 }
 ?>
 <h2>Add Transaction</h2>

@@ -10,33 +10,34 @@ Header("Location: login.php");
 require_once("dropdown.php");
 include ("dbconfig.php");
 
-// Set up database connection
-//$con = mysql_connect($host,$user,$pass);
-//@mysql_select_db($db) or die( "unable to select database");
-
 if ($_POST["op"] == "edit")
 {
 $updstrainsql="UPDATE strains SET strain_name = '" . mysql_real_escape_string($_POST[upd_strain_name]) . "' WHERE strain_id = '" . mysql_real_escape_string($_POST[updstrain]) . "'";
     if (!mysql_query($updstrainsql))
     {
-    die('Error: ' . mysql_error());
+	echo "<h4>Database error: " . mysql_error() . "</h4>";
+	exit;
     }
-echo "1 record updated";
+echo "<h4>Strain updated</h4>";
 }
 
 if ($_POST["op"] == "delete")
 {
 $delstrainsql="DELETE FROM strains WHERE strain_id = '" . mysql_real_escape_string($_POST[delstrain]) . "'";
 $delstrtransql="DELETE FROM transactions where strain_id = '" . mysql_real_escape_string($_POST[delstrain]) . "'";
-    if (!mysql_query($delstrainsql))
-    {
-    die('Error: ' . mysql_error());
-    }
-    if (!mysql_query($delstrtransql))
-    {
-    die('error: ' . mysql_error());
-    }
-echo "1 strain removed";
+
+	if (!mysql_query($delstrainsql))
+	{
+	echo "<h4>Database error: " . mysql_error() . "</h4>";
+	exit;
+	}	
+	
+	if (!mysql_query($delstrtransql))
+	{
+	echo "<h4>Database error: " . mysql_error() . "</h4>";
+	exit;
+	}
+	echo "<h4>Strain removed</h4>";
 }
 
 if ( $_POST["op"] == "add" )
@@ -46,108 +47,83 @@ $addStrain = "INSERT INTO strains (strain_name) VALUES ('" . mysql_real_escape_s
       {
             if (mysql_errno() == 1062)
             {
-            echo "<p>error: strain already in the database</p><br />";
+            echo "<h4>Database error: Strain already in the database</h4>";
+			exit;
             }
             else
             {
-              die('error: ' . mysql_error()); 
+			echo "<h4>Database error: " . mysql_error() . "</h4>";
+			exit;
             }
         }
-echo "1 strain added";
+echo "<h4>Strain added</h4>";
 }
 
 $strainlist = "SELECT strain_name from strains";
 $result = mysql_query($strainlist);
     if (!$result) 
     {
-        echo "could not successfully run query ($strainlist) from database: " . mysql_error();
-        exit;
+		echo "<h4>Database error: " . mysql_error() . "</h4>";
+		exit;
     }
-    if (mysql_num_rows($result) == 0) 
-    {
-        echo "no transactions found";
-    }
+	
 ?>
 
 <html>
 <head>
-<title>the chronicler | strains</title>
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-
-
-<style type="text/css">
-.content .span4 {
-    margin-left: 0;
-    padding-left: 19px;
-    border-left: 1px solid #eee;
-}
-</style>
-
+<title>the chronicler | Strains</title>
 
 </head>
 <body>
-    <div class="container">
-<h1>strains list</h1>  
-<table class="table">
+
+<h1>Strains list</h1>  
+
 <?php
 $i=0;
-while ($i < mysql_num_rows($result)) {
-
-$strain_name=mysql_result($result,$i,'strain_name');
+if (mysql_num_rows($result) != 0) 
+    {
+	echo "<table>";	
+	while ($i < mysql_num_rows($result)) 
+	{
+	$strain_name=mysql_result($result,$i,'strain_name');
+	echo "<tr><td>" . $strain_name . "</td></tr>";
+	$i++;
+	}
+	echo "</table><br />";
+	}
 ?>
-<tr>
-<td><?php echo $strain_name; ?></td>
-</tr>
-<?php
-$i++;
-}
-echo "</table><br />";
-?>
 
-<div class="row-fluid">
-    <div class="span4">
-<h2>search strains</h2>
-<form class="form-search" action="search.php" method="post">
-    <input type="text" class="input-medium" placeholder="enter strain name" name="term">
-    <button class="btn btn-small btn-primary" type="submit" name="op" value="strain">Search</button>
+<h2>Search strains</h2>
+<form action="search.php" method="post">
+    <input type="text" placeholder="enter strain name" name="term">
+    <button type="submit" name="op" value="strain">Search</button>
 </form>
-    </div>
-    <div class="span4">
-<h2>add strain</h2>
-<form class="form-inline" action="strains.php" method="post">
-     <input class="input-medium" type="text" placeholder="enter strain name" name="strain_name" maxlength="255">
-     <button class="btn btn-small btn-primary" type="submit" name="op" value="add">Add</button>
+
+<h2>Add strain</h2>
+<form action="strains.php" method="post">
+     <input type="text" placeholder="enter strain name" name="strain_name" maxlength="255">
+     <button type="submit" name="op" value="add">Add</button>
 </form>
-    </div>
-    <div class="span4">
-<h2>delete strain</h2>
-<form class="form-inline" action="strains.php" method="post" >
+
+<h2>Delete strain</h2>
+<form action="strains.php" method="post" >
     <?php dropdown(strain_id, strain_name, strains, strain_name, delstrain); ?>
-    <button class="btn btn-small btn-primary" type="submit" name="op" value="delete">Delete</button>
+    <button type="submit" name="op" value="delete">Delete</button>
 </form>
-    </div>
-</div>
 
-<div class="row-fluid">
-    <div class="span8 offset1">
-<h2>edit strain name</h2>
-<form class="form-horizontal" action="strains.php" method="post">
+<h2>Edit strain name</h2>
+<form action="strains.php" method="post">
     <?php dropdown(strain_id, strain_name, strains, strain_name, updstrain); ?> 
-    <input class="input-medium" type="text" placeholder="enter new strain name" name="upd_strain_name" maxlength="255">
-    <button class="btn btn-small btn-primary" type="submit" name="op" value="edit">Edit</button>
+    <input type="text" placeholder="enter new strain name" name="upd_strain_name" maxlength="255">
+    <button type="submit" name="op" value="edit">Edit</button>
 </form>
 
 
 <?php
 mysql_close($con);
 ?>
-<div class="span4 offset4">
-<h3><a href="profile.php">profile</a><br /></h3>
-<h3><a href="transactions.php">transactions</a><br /></h3>
-<h3><a href="logout.php">logout</a></h3>
-</div>
-</div>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<h3><a href="profile.php">Profile</a><br /></h3>
+<h3><a href="transactions.php">Transactions</a><br /></h3>
+<h3><a href="logout.php">Logout</a></h3>
 </body>
 </html>

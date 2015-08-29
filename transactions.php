@@ -148,7 +148,7 @@ echo "<h3>There are no transactions added yet</h3>";
 	</form>
 
 <?php
-mysql_close();
+//mysql_close();
 ?>
 
 <h3><a href="profile.php">Profile</a><br /></h3>

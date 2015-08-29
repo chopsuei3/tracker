@@ -8,18 +8,33 @@ Header("Location: login.php");
 
 include ("dbconfig.php");
 
-//mysql_connect($host,$user,$pass);
-//@mysql_select_db($db) or die( "Unable to select database");
 
-$uid = "select transactions.transaction_date, strains.strain_name, transactions.transaction_amount, transactions.transaction_weight
-from transactions, strains
-where (transactions.strain_id = strains.strain_id) and id = '".$_SESSION["valid_id"]."' ";
+// MySQL connection debugging
+/*
+$connection_id = mysql_thread_id($ms);
+echo "<h1>DEBUG :: MYSQL CONNECTION ID = " . $connection_id . "</h1>";
+
+//echo get_resource_type($ms);
+
+if(is_resource($ms) && get_resource_type($ms) === 'mysql link persistent')
+{
+    echo "<h1>MYSQL CONNECTION IS OPEN! =)</h1>";
+}
+else
+{
+    echo "<h1>MYSQL CONNECTION IS CLOSED</h1>";
+}
+
+//mysql_connect($host,$user,$pass);
+//mysql_select_db($db);
+*/
+$uid = "select transactions.transaction_date, strains.strain_name, transactions.transaction_amount, transactions.transaction_weight from transactions, strains where (transactions.strain_id = strains.strain_id) and transactions.id = '" . $_SESSION["valid_id"] . "' ";
 
 $result=mysql_query($uid);
 
 if (!$result) {
-//    echo "Could not successfully run query ($sql) from database: " . mysql_error();
-    exit;
+    echo "Could not successfully run query ($uid) from database: " . mysql_error();
+//    exit;
 }
 
 ?>
@@ -33,8 +48,8 @@ if (!$result) {
        
 <h1>User Profile</h1>
 <?php 
-echo "<h4>Username: ".$_SESSION[valid_user]."</h4>";
-echo "<h4>User ID: ".$_SESSION[valid_id]."</h4>";
+echo "<h4>Username: ".$_SESSION['valid_user']."</h4>";
+echo "<h4>User ID: ".$_SESSION['valid_id']."</h4>";
 
 if (mysql_num_rows($result) != 0) 
 {
@@ -60,12 +75,12 @@ if (mysql_num_rows($result) != 0)
 <?php
 $i++;
 echo "</table><br />";
-mysql_close();
-
+//mysql_close($ms);
 }
 else
 {
 echo "<h3>You haven't added any transactions yet.</h3>";
+//mysql_close($ms);
 }
 
 ?>

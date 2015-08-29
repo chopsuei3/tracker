@@ -3,7 +3,6 @@ session_start();
 
 if (!$_SESSION["valid_user"])
 {
-// User not logged in, redirect to login page
 Header("Location: login.php");
 }
 
@@ -120,7 +119,7 @@ if (mysql_num_rows($result) != 0)
 
 
 <?php
-mysql_close($con);
+//mysql_close($con);
 ?>
 <h3><a href="profile.php">Profile</a><br /></h3>
 <h3><a href="transactions.php">Transactions</a><br /></h3>

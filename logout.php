@@ -8,4 +8,4 @@ session_destroy();
 Header("Location: index.html");
 ?>
 
-<title>untitled project | logout</title>
+<title>the chronicler | logout</title>

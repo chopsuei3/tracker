@@ -6,8 +6,10 @@ if (!$_SESSION["valid_user"])
 Header("Location: login.php");
 }
 
-include ("dbconfig.php");
+$userId = $_SESSION['valid_id'];
+$userName = $_SESSION['valid_user'];
 
+include ("dbconfig.php");
 
 // MySQL connection debugging
 /*
@@ -28,6 +30,7 @@ else
 //mysql_connect($host,$user,$pass);
 //mysql_select_db($db);
 */
+
 $uid = "select transactions.transaction_date, strains.strain_name, transactions.transaction_amount, transactions.transaction_weight from transactions, strains where (transactions.strain_id = strains.strain_id) and transactions.id = '" . $_SESSION["valid_id"] . "' ";
 
 $result=mysql_query($uid);
@@ -48,8 +51,8 @@ if (!$result) {
        
 <h1>User Profile</h1>
 <?php 
-echo "<h4>Username: ".$_SESSION['valid_user']."</h4>";
-echo "<h4>User ID: ".$_SESSION['valid_id']."</h4>";
+echo "<h4>Username: " . $userName . "</h4>";
+echo "<h4>User ID: " . $userId . "</h4>";
 
 if (mysql_num_rows($result) != 0) 
 {
@@ -62,25 +65,19 @@ if (mysql_num_rows($result) != 0)
 	$strain_name=mysql_result($result,$i,"strain_name");
 	$transaction_weight=mysql_result($result,$i,"transaction_weight");
 	$transaction_amount=mysql_result($result,$i,"transaction_amount");
+	
+	echo "<tr><td>" . $transaction_date . "</td><td>" . $strain_name . "</td><td>" . $transaction_weight . "</td><td>" . $transaction_amount . "</td></tr>";
+
+	$i++;
 	}
-?>
 
-<tr>
-<td><?php echo $transaction_date; ?></td>
-<td><?php echo $strain_name; ?></td>
-<td><?php echo $transaction_weight; ?></td>
-<td><?php echo $transaction_amount; ?></td>
-</tr>
-
-<?php
-$i++;
 echo "</table><br />";
-//mysql_close($ms);
+mysql_close($ms);
 }
 else
 {
 echo "<h3>You haven't added any transactions yet.</h3>";
-//mysql_close($ms);
+mysql_close($ms);
 }
 
 ?>

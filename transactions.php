@@ -147,7 +147,6 @@ echo "<h3>There are no transactions added yet</h3>";
 	<h6>New strain name</h6>
 	<?php dropdown(strain_id, strain_name, strains, strain_name, updtransstrain); ?>
 	<input type="date" placeholder="New date" name="updtransdate">
-	<a href="#"
 	<input type="text" placeholder="New wt (g)" name="updtransweight">
 	<input type="text" placeholder="New $" name="updtransprice">
 	<button type="submit" name="op" value="edit">Edit transaction</button>

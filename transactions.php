@@ -1,5 +1,5 @@
 <?php
-function preventHijacking()
+function hijackTest()
 {
 	if(!isset($_SESSION['IPaddress']) || !isset($_SESSION['userAgent']))
 		return false;
@@ -17,7 +17,7 @@ function sessionStart()
 {
 	session_start();
 
-	if(!preventHijacking())
+	if(!hijackTest())
 	{
 		$_SESSION = array();
 		$_SESSION['IPaddress'] = $_SERVER['REMOTE_ADDR'];

@@ -87,12 +87,7 @@ if (!$result)
 
 <html>
 <head>
-
-<script language="JavaScript" src="/tracker/js/CalendarPopup.js"></script>
-<script language="JavaScript">
-var cal = new CalendarPopup();
-</script>
-    
+  
 <title>the chronicler | Transactions</title>
 
 </head>
@@ -139,7 +134,6 @@ echo "<h3>There are no transactions added yet</h3>";
 	<form action="transactions.php" method="post">
 	<h6>Select strain</h6><?php dropdown(strain_id, strain_name, strains, strain_name, transstrain); ?>
 	<input type="date" placeholder="Select date" name="transdate">
-	<a href="#" onClick="cal.select(document.forms['addtrans'].transdate,'anchor1','yyyy/MM/dd'); return false;" name="anchor1" id="anchor1">select</a>
 	<input type="number" placeholder="Weight (g)" name="transweight">
 	<input type="number" placeholder="Price" name="transprice">
 	<button type="submit" name="op" value="add">Add transaction</button>
@@ -154,7 +148,6 @@ echo "<h3>There are no transactions added yet</h3>";
 	<?php dropdown(strain_id, strain_name, strains, strain_name, updtransstrain); ?>
 	<input type="date" placeholder="New date" name="updtransdate">
 	<a href="#"
-	onClick="cal.select(document.forms['edittransaction'].updtransdate,'anchor1','yyyy/MM/dd'); return false;"name="anchor1" id="anchor1">select</a>
 	<input type="text" placeholder="New wt (g)" name="updtransweight">
 	<input type="text" placeholder="New $" name="updtransprice">
 	<button type="submit" name="op" value="edit">Edit transaction</button>
@@ -175,7 +168,7 @@ echo "<h3>There are no transactions added yet</h3>";
 	</form>
 
 <?php
-//mysql_close();
+mysql_close();
 ?>
 
 <h3><a href="profile.php">Profile</a><br /></h3>

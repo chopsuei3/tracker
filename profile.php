@@ -1,5 +1,32 @@
 <?php
-session_start();
+function preventHijacking()
+{
+	if(!isset($_SESSION['IPaddress']) || !isset($_SESSION['userAgent']))
+		return false;
+
+	if ($_SESSION['IPaddress'] != $_SERVER['REMOTE_ADDR'])
+		return false;
+
+	if( $_SESSION['userAgent'] != $_SERVER['HTTP_USER_AGENT'])
+		return false;
+
+	return true;
+}
+
+function sessionStart()
+{
+	session_start();
+
+	if(!preventHijacking())
+	{
+		$_SESSION = array();
+		$_SESSION['IPaddress'] = $_SERVER['REMOTE_ADDR'];
+		$_SESSION['userAgent'] = $_SERVER['HTTP_USER_AGENT'];
+		session_write_close();
+	}
+}
+
+sessionStart();
 
 if (!$_SESSION["valid_user"])
 {

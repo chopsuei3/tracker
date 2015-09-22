@@ -41,11 +41,11 @@ if (($_POST["op"] == "login") && !empty($_POST["username"]) && !empty($_POST["pa
 	$_SESSION["valid_id"] = $obj->id;
 	$_SESSION["valid_user"] = $_POST["username"];
 	$_SESSION["valid_time"] = time();
+	$_SESSION['IPaddress'] = $_SERVER['REMOTE_ADDR'];
+	$_SESSION['userAgent'] = $_SERVER['HTTP_USER_AGENT'];
 	session_write_close();
 
 	Header("Location: profile.php");
-#	Header("Location: login.php?op=incorrect");
-
 	}
 	else
 	{
